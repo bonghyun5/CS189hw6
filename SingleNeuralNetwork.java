@@ -37,11 +37,22 @@ public class SingleNeuralNetwork {
 	}
 	
 	void classify(Sample sample) {
-		//Classify samples and put into samples.predictedClass
+		int predictedClass = 0;
+		double bestActivationVal = 0;
+		for (int i = 0; i < nout; i ++) {
+			double activationVal = getActivationVal(weightMatrix, sample.getPixels(), bias,  i);
+			if (activationVal > bestActivationVal) {
+				predictedClass = i;
+				bestActivationVal = activationVal;
+			}
+		}
+		sample.setPredictedClass(predictedClass);
 	}
 	
 	void classifyAll(ArrayList<Sample> samples) {
-		//Classify all samples
+		for (Sample sample : samples) {
+			classify(sample);
+		}
 	}
 	
 	private ArrayList<ArrayList<Sample>> shuffleAndGetMiniBatches(List<Sample> samples, int batchSize) {
@@ -71,6 +82,21 @@ public class SingleNeuralNetwork {
 			}
 		}
 		return updatedWeightMatrix;
+	}
+	
+	private double getActivationVal(double[][] weightMatrix, ArrayList<Integer> pixels, double[] biass, int j) {
+		double totalActivationVal = 0.0;
+		for (int i = 0; i < pixels.size(); i++) {
+			totalActivationVal = totalActivationVal + (weightMatrix[i][j] * pixels.get(i));
+		}
+		totalActivationVal = totalActivationVal + biass[j];
+		return sigmoidFunction(totalActivationVal);
+	}
+	
+	private double sigmoidFunction(double n) {
+		double a = Math.exp(n * -1);
+		double b = 1 + a;
+		return 1 / b;
 	}
 		
 }
