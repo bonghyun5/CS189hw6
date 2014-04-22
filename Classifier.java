@@ -16,13 +16,13 @@ public class Classifier {
 	static void crossValidationSingleNeuralNetwork(String inputFileNameX, String inputFileNameY) {
 		System.out.println("CrossValidation SingleNeuralNetwork");
 		ArrayList<Sample> allSamples = Parser.parse(inputFileNameX, inputFileNameY);
-		double[] learningRates = {0.001, 0.005, 0.01, 0.015, 0.02};
-		int[] numEpochs = {100};
+		double[] learningRates = {0.01, 0.015, 0.02};
+		int[] numEpochs = {100, 500, 1000, 2000};
 		int numTestingSamples = (int) (allSamples.size() / 10);
-		System.out.println(allSamples.get(0).getPixels());
+		//System.out.println(allSamples.get(0).getPixels());
 		allSamples = normalizeData(allSamples);
-		System.out.println(allSamples.get(0).getPixels());
-		System.out.println(numTestingSamples);
+		//System.out.println(allSamples.get(0).getPixels());
+		//System.out.println(numTestingSamples);
 		for (double learningRate : learningRates) {
 			for (int numEpoch : numEpochs) {
 				Collections.shuffle(allSamples);
@@ -36,7 +36,7 @@ public class Classifier {
 					for (int k = numTestingSamples; k < allSamples.size(); k++) {
 						trainSample.add(allSamples.get(k));
 					}
-					SingleNeuralNetwork neuralNetwork = new SingleNeuralNetwork(trainSample, learningRate, numEpoch, MEAN_SQUARE_ERROR);
+					SingleNeuralNetwork neuralNetwork = new SingleNeuralNetwork(trainSample, learningRate, numEpoch, CROSS_ENTROPY_ERROR);
 					neuralNetwork.classifyAll(testSample);
 					double errorRate = getErrorRate(testSample);
 					errorRates.add(errorRate);

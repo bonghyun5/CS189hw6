@@ -27,7 +27,7 @@ public class SingleNeuralNetwork {
 		initializeWeightMatrix();
 		initializeBias();
 		train(samples, learningRate, numEpochs, errorEquation);
-		printWeightMatrix(weightMatrix);
+		//printWeightMatrix(weightMatrix);
 		//printBias(bias);
 	}
 	
@@ -69,9 +69,6 @@ public class SingleNeuralNetwork {
 				bestActivationVal = activationVal;
 			}
 		}
-		System.out.println("actualClass:" + sample.getActualClass());
-		System.out.println("predictedClass:" + predictedClass);
-		
 		sample.setPredictedClass(predictedClass);
 	}
 	
@@ -159,7 +156,9 @@ public class SingleNeuralNetwork {
 			double delta = (y - t) * (y) * (1 - y);
 			return delta;
 		} else {
-			return 1.0;
+			double smallWeight = 0.0001;
+			double delta = (-1) * (((t) / (smallWeight + y)) - ((1 - t) / (1 - y + smallWeight))) * (y) * (1.0 - y);
+			return delta;
 		}
 	}
 	
@@ -168,7 +167,9 @@ public class SingleNeuralNetwork {
 			double delta = (y - t) * (y) * (1 - y) * x;
 			return delta;
 		} else {
-			return 0.0;
+			double smallWeight = 0.0001;
+			double delta = (-1) * (((t) / (smallWeight + y)) - ((1 - t) / (1 - y + smallWeight))) * (y) * (1.0 - y) * x;
+			return delta;
 		}
 	}
 	
@@ -176,11 +177,6 @@ public class SingleNeuralNetwork {
 		double a = Math.exp(n * -1);
 		double b = 1 + a;
 		return 1 / b;
-	}
-	
-	private double sigmoidPrimeFunction(double n) {
-		double d = sigmoidFunction(n);
-		return d * (1.0 - d);
 	}
 
 	public void printWeightMatrix(double[][] grid) {
