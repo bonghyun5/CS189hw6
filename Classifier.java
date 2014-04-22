@@ -16,7 +16,7 @@ public class Classifier {
 	static void crossValidationSingleNeuralNetwork(String inputFileNameX, String inputFileNameY) {
 		System.out.println("CrossValidation SingleNeuralNetwork");
 		ArrayList<Sample> allSamples = Parser.parse(inputFileNameX, inputFileNameY);
-		double[] learningRates = {0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8};
+		double[] learningRates = {0.001, 0.005, 0.01, 0.015, 0.02};
 		int[] numEpochs = {100};
 		int numTestingSamples = (int) (allSamples.size() / 10);
 		System.out.println(allSamples.get(0).getPixels());
@@ -72,16 +72,29 @@ public class Classifier {
 		ArrayList<Sample> normalizedSamples = new ArrayList<Sample>();
 		for (Sample sample : samples) {
 			ArrayList<Double> pixels = sample.getPixels();
-			pixels = normalize(pixels);
+			pixels = contrastNormalize(pixels);
+			//pixels = normalize(pixels, mean, stdDev);
 			sample.setPixels(pixels);
 			normalizedSamples.add(sample);
 		}
 		return normalizedSamples;
 	}
 	
-	static private ArrayList<Double> normalize(ArrayList<Double> data) {
-		double mean = getMean(data);
-		double stdDev = getStdDev(data);
+	static private ArrayList<Double> contrastNormalize(ArrayList<Double> data) {
+		double sqredSum = 0.0;
+		ArrayList<Double> normalizedData = new ArrayList<Double>();
+		for (double d : data) {
+			sqredSum = sqredSum + (d * d);
+		}
+		double normalizedTerm = Math.sqrt(sqredSum);
+		for (double d : data) {
+			normalizedData.add(d / normalizedTerm);
+		}
+		return normalizedData;
+	}
+	
+	/**
+	static private ArrayList<Double> normalize(ArrayList<Double> data, double mean, double stdDev) {
 		ArrayList<Double> normalizedData = new ArrayList<Double>();
 		for (double d : data) {
 			normalizedData.add(((double) (d - mean)) / (stdDev));
@@ -109,4 +122,5 @@ public class Classifier {
     static private double getStdDev(ArrayList<Double> data) {
         return Math.sqrt(getVariance(data));
     }
+    */
 }
