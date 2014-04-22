@@ -5,15 +5,15 @@ import java.util.ArrayList;
 public class Sample {
 	final static int pixelsSize = 28 * 28;
 	
-	private ArrayList<Integer> pixels = new ArrayList<Integer>();
+	private ArrayList<Double> pixels = new ArrayList<Double>();
 	private int actualClass;
 	private int predictedClass;
 	
-	ArrayList<Integer> getPixels() {
+	ArrayList<Double> getPixels() {
 		return pixels;
 	}
 	
-	void setPixels(ArrayList<Integer> pixels) {
+	void setPixels(ArrayList<Double> pixels) {
 		this.pixels = pixels;
 	}
 	

@@ -20,9 +20,9 @@ public class Parser {
 			br = new BufferedReader(new FileReader(xFileLocation));
 			while ((sCurrentLine = br.readLine()) != null) {
 				String[] arr = sCurrentLine.split(",");
-				ArrayList<Integer> pixels = new ArrayList<Integer>();
+				ArrayList<Double> pixels = new ArrayList<Double>();
 				for (int i = 0; i < arr.length; i++) {
-					pixels.add(Integer.parseInt(arr[i]));
+					pixels.add(Double.parseDouble(arr[i]));
 				}
 				Sample s = new Sample();
 				s.setPixels(pixels);
@@ -55,9 +55,9 @@ public class Parser {
 			br = new BufferedReader(new FileReader(xFileLocation));
 			while ((sCurrentLine = br.readLine()) != null) {
 				String[] arr = sCurrentLine.split(",");
-				ArrayList<Integer> pixels = new ArrayList<Integer>();
+				ArrayList<Double> pixels = new ArrayList<Double>();
 				for (int i = 0; i < arr.length; i++) {
-					pixels.add(Integer.parseInt(arr[i]));
+					pixels.add(Double.parseDouble(arr[i]));
 				}
 				Sample s = new Sample();
 				s.setPixels(pixels);
