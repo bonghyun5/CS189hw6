@@ -26,7 +26,7 @@ public class SingleNeuralNetwork {
 		this.errorEquation = errorEquation;
 		initializeWeightMatrix();
 		initializeBias();
-		train(samples, learningRate, numEpochs, errorEquation);
+		train(samples);
 		//printWeightMatrix(weightMatrix);
 		//printBias(bias);
 	}
@@ -40,11 +40,10 @@ public class SingleNeuralNetwork {
 		}
 	}
 	
-	void initializeBias() {
-		
+	void initializeBias() {	
 	}
 	
-	void train(ArrayList<Sample> samples, double learningRate, int numEpochs, String errorEquation) {
+	void train(ArrayList<Sample> samples) {
 		for (int epoch = 0; epoch < numEpochs; epoch ++) {
 			//Shuffle and Split into mini-batches
 			ArrayList<ArrayList<Sample>> miniBatches = shuffleAndGetMiniBatches(samples, batchSize);
@@ -52,7 +51,7 @@ public class SingleNeuralNetwork {
 			//For each minimatches
 			for (ArrayList<Sample> miniBatch : miniBatches) {
 				//Compute gradient and update accordingly
-				updateWeightBiasMatrix(miniBatch, learningRate, errorEquation);
+				updateWeightBiasMatrix(miniBatch, learningRate);
 			}
 		}
 	}
@@ -92,7 +91,7 @@ public class SingleNeuralNetwork {
 		return miniBatches;
 	}
 	
-	private void updateWeightBiasMatrix(ArrayList<Sample> miniBatch, double learningRate, String errorEquation) {
+	private void updateWeightBiasMatrix(ArrayList<Sample> miniBatch, double learningRate) {
 		double[][] updatedWeightMatrix = new double[nin][nout];
 		double[] updatedBias = new double[nout];
 		for (Sample sample : miniBatch) {
